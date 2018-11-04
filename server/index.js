@@ -6,6 +6,7 @@ import createShopifyAuth, {
 } from '@shopify/koa-shopify-auth';
 import webpack from 'koa-webpack';
 import graphQLProxy from '@shopify/koa-shopify-graphql-proxy';
+import ApiProxy from '../koa-shopify-api-proxy';
 
 import renderReactApp from './render-react-app';
 
@@ -23,7 +24,7 @@ app.use(
   createShopifyAuth({
     apiKey: SHOPIFY_API_KEY,
     secret: SHOPIFY_SECRET,
-    scopes: ['write_products'],
+    scopes: ['write_products', 'read_products', 'read_orders', 'write_orders'],
     afterAuth(ctx) {
       const {shop, accessToken} = ctx.session;
 
@@ -34,7 +35,9 @@ app.use(
   }),
 );
 
-app.use(graphQLProxy)
+app.use(graphQLProxy);
+
+app.use(ApiProxy);
 
 app.use(createVerifyRequest());
 
