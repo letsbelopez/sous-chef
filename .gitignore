@@ -43,3 +43,6 @@ lerna-debug.log
 .DS_Store
 
 .env
+
+# next.js build output
+.next
