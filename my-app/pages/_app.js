@@ -1,6 +1,7 @@
 import App, {Container} from 'next/app'
 import React from 'react'
 import { AppProvider } from '@shopify/polaris'
+import OrderProvider from '../components/OrderProvider'
 import '@shopify/polaris/styles.css'
 
 global.isClient = typeof(window) !== 'undefined'
@@ -13,7 +14,9 @@ class MyApp extends App {
     return (
       <Container>
         <AppProvider shopOrigin={shopOrigin} apiKey={apiKey}>
-          <Component {...pageProps} />
+          <OrderProvider>
+            <Component {...pageProps} />
+          </OrderProvider>
         </AppProvider>
       </Container>
     )
