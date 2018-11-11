@@ -5,7 +5,12 @@ const OrderContext = React.createContext();
 class OrderProvider extends Component {
   state = {
     path: '',
-    dates: null
+    dates: null,
+    orders: []
+  }
+
+  getOrders = () => {
+    console.log('getting orders');
   }
 
   updatePath = (dates) => {
@@ -23,6 +28,8 @@ class OrderProvider extends Component {
         value={{
           path: this.state.path,
           dates: this.state.dates,
+          orders: this.state.orders,
+          getOrders: this.getOrders,
           updateDates: this.updateDates,
           updatePath: this.updatePath
         }}
