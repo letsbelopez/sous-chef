@@ -5,11 +5,16 @@ const OrderContext = React.createContext();
 class OrderProvider extends Component {
   state = {
     path: '',
+    dates: null
   }
 
-  updatePath = (selectedDates) => {
-    const path = `/orders.json?processed_at_min=${selectedDates.start.toISOString()}`;
-    this.setState({ path });
+  updatePath = (dates) => {
+    const path = `/orders.json?processed_at_min=${dates.start.toISOString()}`
+    this.setState({ path })
+  }
+
+  updateDates = (dates) => {
+    this.setState({ dates })
   }
 
   render() {
@@ -17,7 +22,8 @@ class OrderProvider extends Component {
       <OrderContext.Provider 
         value={{
           path: this.state.path,
-          selectedDates: this.state.selectedDates,
+          dates: this.state.dates,
+          updateDates: this.updateDates,
           updatePath: this.updatePath
         }}
       >

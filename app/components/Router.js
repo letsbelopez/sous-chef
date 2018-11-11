@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter } from 'react-router';
 import RoutePropagator from '@shopify/react-shopify-app-route-propagator';
 
-import OrdersTotalPage from './OrderTotalsPage';
+import OrderTotalsPage from './OrderTotalsPage';
 import MealsPage from './MealsPage';
 import ApiConsole from './ApiConsole';
 
@@ -12,7 +12,7 @@ const Router = () => (
   <React.Fragment>
     <Propagator />
     <Switch>
-      <Route exact path="/" component={OrdersTotalPage} />
+      <Route exact path="/" component={OrderTotalsPage} />
       <Route exact path="/meals" component={MealsPage} />
       <Route exact path="/apiconsole" component={ApiConsole} />
       {/* <Route component={NotFound} /> */}

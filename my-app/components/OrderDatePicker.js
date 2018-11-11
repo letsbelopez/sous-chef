@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { DatePicker, FormLayout } from "@shopify/polaris";
 import { OrderConsumer } from "../components/OrderProvider";
+import { updateDate } from "../../client/actions";
 
 const today = new Date();
 
@@ -18,21 +19,21 @@ class OrderDatePicker extends Component {
   }
 
   render() {
-    const { month, year, selected } = this.state;
+    const { month, year } = this.state;
 
     return (
       <FormLayout>
         <OrderConsumer>
-          {({ updatePath }) => (
+          {({ updatePath, updateDates }) => (
             <DatePicker
               month={month}
               year={year}
               onChange={value => {
-                updatePath(value);
-                // this.props.togglePopover();
+                updatePath(value)
+                updateDates(value)
+                this.props.togglePopover()
               }}
               onMonthChange={this.handleMonthChange}
-              //selected={selected}
               allowRange={false}
             />
           )}
