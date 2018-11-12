@@ -11,6 +11,24 @@ class OrderProvider extends Component {
 
   getOrders = () => {
     console.log('getting orders');
+
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    }
+
+    fetch(`/api${this.state.path}`, fetchOptions)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json.orders)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   updatePath = (dates) => {
