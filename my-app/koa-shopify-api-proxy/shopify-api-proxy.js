@@ -6,10 +6,7 @@ const API_PATH = '/admin';
 module.exports = async function shopifyAPIProxy(ctx, next) {
   const { session = {} } = ctx;
   const { accessToken, shop } = session;
-  
-  console.log("Context ---", ctx);
-  console.log("Session ---", session);
-  
+    
   if (!ctx.path.startsWith(PROXY_BASE_PATH)) {
     await next();
     return;

@@ -21,7 +21,7 @@ class OrderProvider extends Component {
       credentials: 'include',
     }
 
-    fetch(`/api${this.state.path}`, fetchOptions)
+    fetch(`shopify/api${this.state.path}`, fetchOptions)
       .then((response) => response.json())
       .then((json) => {
         console.log(json.orders)

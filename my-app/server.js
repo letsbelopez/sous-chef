@@ -1,3 +1,7 @@
+
+if (!process.browser) // polyfill
+  global.fetch = require('isomorphic-unfetch')
+
 const shopifyAuth = require('@shopify/koa-shopify-auth').default
 
 const Koa = require('koa')
@@ -17,6 +21,8 @@ app.prepare()
   .then(() => {
     const server = new Koa()
     const router = new Router()
+
+    server.keys = [SHOPIFY_SECRET]
 
     server.use(session(server))
 
