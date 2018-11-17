@@ -6,11 +6,39 @@ class OrderProvider extends Component {
   state = {
     path: '',
     dates: null,
-    orders: []
+    orders: [],
+    requestInProgress: false
+  }
+
+  buildOrderRows = (orders) => {
+    const productQuantities = orders
+      .reduce((obj, order) => {
+        return [...obj, ...order.line_items];
+      }, [])
+      .reduce((obj, item) => {
+        const { name, quantity, product_id } = item;
+        if (!obj[name]) {
+          obj[name] = {};
+          obj[name].quantity = 0;
+          obj[name].product_id = product_id;
+        }
+        obj[name].quantity += quantity;
+        return obj;
+      }, {});
+
+    const rows = Object.keys(productQuantities).map((key) => {
+      return [
+        key,
+        productQuantities[key].product_id,
+        productQuantities[key].quantity,
+      ];
+    });
+
+    this.setState({orders: rows, requestInProgress: false});
   }
 
   getOrders = () => {
-    console.log('getting orders');
+    this.setState({requestInProgress: true});
 
     const fetchOptions = {
       method: 'GET',
@@ -21,10 +49,10 @@ class OrderProvider extends Component {
       credentials: 'include',
     }
 
-    fetch(`shopify/api${this.state.path}`, fetchOptions)
+    fetch(`/api${this.state.path}`, fetchOptions)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json.orders)
+        this.buildOrderRows(json.orders)
       })
       .catch((error) => {
         console.error(error)

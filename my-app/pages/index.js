@@ -10,9 +10,9 @@ class App extends Component {
   render() {
     return (
       <Page title="Meal Totals">
-        <Layout>
           <OrderConsumer>
-            {({getOrders}) => (
+            {({getOrders, orders, requestInProgress}) => (
+              <Layout>
               <Layout.Section>
                 <Card
                   title="Search criteria"
@@ -25,14 +25,14 @@ class App extends Component {
                   </Card.Section>
                 </Card>
               </Layout.Section>
-            )}
-          </OrderConsumer>
-          <Layout.Section>
-            <Card>
-              {/* <OrderTotalsTable /> */}
-            </Card>
-          </Layout.Section>
-        </Layout>
+              <Layout.Section>
+                <Card>
+                  <OrderTotalsTable orders={orders} requestInProgress={requestInProgress} />
+                </Card>
+              </Layout.Section>
+            </Layout>
+          )}
+        </OrderConsumer>
       </Page>
     )
   }

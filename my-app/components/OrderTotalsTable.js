@@ -3,7 +3,7 @@ import { Card, DataTable, Spinner } from "@shopify/polaris";
 
 class OrderTotalsTable extends Component {
   onSort = (headingIndex, direction) => {
-    const orders = this.props.responseBody;
+    const orders = this.props.orders;
     if (direction === "ascending") {
       orders.sort((a, b) => {
         if (a[headingIndex] < b[headingIndex]) {
@@ -28,7 +28,7 @@ class OrderTotalsTable extends Component {
   };
 
   renderTable() {
-    //const orders = this.props.responseBody;
+    const orders = this.props.orders;
 
     const totalProducts = orders.reduce((total, row) => {
       return (total += row[2]);
@@ -49,7 +49,7 @@ class OrderTotalsTable extends Component {
   }
 
   render() {
-    const orders = this.props.responseBody;
+    const orders = this.props.orders;
     const requestInProgress = this.props.requestInProgress;
 
     if (requestInProgress) {
