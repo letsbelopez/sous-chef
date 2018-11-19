@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { DatePicker, FormLayout } from "@shopify/polaris";
 import { OrderConsumer } from "../components/OrderProvider";
-import { updateDate } from "../../client/actions";
 
 const today = new Date();
 

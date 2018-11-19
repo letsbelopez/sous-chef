@@ -3,6 +3,7 @@ if (!process.browser) // polyfill
   global.fetch = require('isomorphic-unfetch')
 
 const shopifyAuth = require('@shopify/koa-shopify-auth').default
+const verifyRequest = require('@shopify/koa-shopify-auth').verifyRequest
 
 const Koa = require('koa')
 const next = require('next')
@@ -29,7 +30,7 @@ app.prepare()
     server.use(shopifyAuth({
       apiKey: SHOPIFY_API_KEY,
       secret: SHOPIFY_SECRET,
-      scopes: ['write_orders', 'write_products', 'read_orders', 'read_products'],
+      scopes: ['write_orders', 'write_products'],
       afterAuth(ctx) {
         const {shop, accessToken} = ctx.session;
 
@@ -38,6 +39,8 @@ app.prepare()
         ctx.redirect('/')
       },
     }))
+
+    // server.use(verifyRequest())
 
     router.get('/', async ctx => {
       await app.render(ctx.req, ctx.res, '/', ctx.query)
