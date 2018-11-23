@@ -14,12 +14,10 @@ class MealsPage extends Component {
   }
 
   componentDidMount() {
-    // const query = queryString.parse(this.props.location.search);
-    console.log(this.props.productId);
+    const productId = this.props.productId;
     
-    // 1515921211490
-    if (this.props.productId) {
-      this.getMetafields(this.props.productId);
+    if (productId) {
+      this.getMetafields(productId);
     } else {
       console.error('No meal id found');
     }
@@ -39,7 +37,6 @@ class MealsPage extends Component {
     fetch(`/api/products/${productId}/metafields.json`, fetchOptions)
       .then((response) => response.json())
       .then((metafield) => {
-        console.log(metafield);
         this.setState({ metafields: metafield.metafield });
         this.setState({ ingredients: JSON.parse(metafield.metafield.value) });
         this.setState({ verb: 'PUT' });
@@ -102,7 +99,8 @@ class MealsPage extends Component {
 
   handleSubmit = () => {
     const { ingredients, verb } = this.state;
-    const query = queryString.parse(this.props.location.search);
+    const productId = this.props.productId;
+    
     const metafield = {
       metafield: {
         value: JSON.stringify(ingredients),
@@ -113,11 +111,11 @@ class MealsPage extends Component {
     if (verb === 'POST') {
       metafield.metafield['namespace'] = 'sousChef';
       metafield.metafield['key'] = 'ingredients';
-      this.createMetafield(JSON.stringify(metafield), query.id);
+      this.createMetafield(JSON.stringify(metafield), productId);
     } else {
       const metafieldString = JSON.stringify(metafield);
       const metafieldId = this.state.metafields.id;
-      this.saveMetafield(query.id, metafieldId, metafieldString);
+      this.saveMetafield(productId, metafieldId, metafieldString);
     }
   };
 
