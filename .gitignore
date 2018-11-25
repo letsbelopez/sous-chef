@@ -44,5 +44,8 @@ lerna-debug.log
 
 .env
 
+# Visual Studio editor ignore
+.vscode
+
 # next.js build output
 .next
