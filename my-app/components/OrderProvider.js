@@ -7,6 +7,7 @@ class OrderProvider extends Component {
     path: "",
     dates: null,
     orders: [],
+    ingredients: [],
     requestInProgress: false
   };
 
@@ -22,13 +23,38 @@ class OrderProvider extends Component {
     // TODO Finish ingredient totalling
     Promise.all(promises)
       .then(metafields => {
-        console.log(metafields);
-        metafields.forEach(metafield => {
-          if (metafield) {
-            const ingredients = JSON.parse(metafield[0].value);
-            console.log(ingredients);
-          }
+        const ingredientTotals = metafields
+          .reduce((obj, metafield) => {
+            if (metafield) {
+              const value = JSON.parse(metafield[0].value);
+              const ingredients = Object.keys(value).map(key => {
+                return value[key];
+              });
+
+              return obj.concat(ingredients);
+            }
+
+            return obj;
+          }, [])
+          .reduce((obj, item) => {
+            const { name, quantity, measurement } = item;
+            if (!obj[name]) {
+              obj[name] = {};
+              obj[name].quantity = 0;
+              obj[name].measurement = measurement;
+            }
+            obj[name].quantity += parseInt(quantity, 10);
+            return obj;
+          }, {});
+
+        const rows = Object.keys(ingredientTotals).map(key => {
+          return [
+            key,
+            ingredientTotals[key].quantity,
+            ingredientTotals[key].measurement
+          ];
         });
+        this.setState({ ingredients: rows });
       })
       .catch(error => console.error(error));
   };
@@ -125,6 +151,7 @@ class OrderProvider extends Component {
         value={{
           path: this.state.path,
           dates: this.state.dates,
+          ingredients: this.state.ingredients,
           orders: this.state.orders,
           getOrders: this.getOrders,
           getProductMetafields: this.getProductMetafields,
