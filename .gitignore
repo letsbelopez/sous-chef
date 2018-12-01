@@ -5,3 +5,6 @@ node_modules/
 .next
 
 .env
+
+# Zeit Now Deployment Options
+now.json
