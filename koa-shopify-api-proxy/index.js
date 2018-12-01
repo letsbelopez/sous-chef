@@ -1,4 +1,4 @@
-import proxy from './shopify-api-proxy';
+const proxy = require('./shopify-api-proxy');
 
-export default proxy;
-export * from './shopify-api-proxy';
+module.exports = proxy;
+//export * from './shopify-api-proxy';
