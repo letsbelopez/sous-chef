@@ -1,12 +1,12 @@
-import proxy from 'koa-better-http-proxy';
+const proxy = require('koa-better-http-proxy');
 
-export const PROXY_BASE_PATH = '/api';
-export const API_PATH = '/admin';
+const PROXY_BASE_PATH = '/api';
+const API_PATH = '/admin';
 
-export default async function shopifyAPIProxy(ctx, next) {
+module.exports = async function shopifyAPIProxy(ctx, next) {
   const { session = {} } = ctx;
   const { accessToken, shop } = session;
-
+    
   if (!ctx.path.startsWith(PROXY_BASE_PATH)) {
     await next();
     return;
